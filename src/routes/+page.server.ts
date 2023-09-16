@@ -1,6 +1,12 @@
-//import { OPEN_AI_KEY } from '$env/static/private';
+import { OPEN_AI_KEY, REPLICATE_API_TOKEN } from '$env/static/private';
 import { Configuration, OpenAIApi } from "openai";
+import Replicate from "replicate";
 
+//REPLICATE
+const replicate = new Replicate({
+  auth: REPLICATE_API_TOKEN,
+});
+//OPENAI
 const configuration = new Configuration({
   apiKey: OPEN_AI_KEY,
 });
@@ -19,10 +25,10 @@ function getRandomImagePrompt(): string {
   const animal: string = animalNames[getRandomIntInclusive(animalNames.length - 1)];
   const style: string = styles[getRandomIntInclusive(styles.length - 1)];
   const setting: string = settings[getRandomIntInclusive(settings.length - 1)];
-  return animal + " in " + setting + " " + style;
+  return animal + " in " + setting + ", " + style + " style";
 }
 
-async function getImagePromise(prompt: string) {
+async function getOpenAIImagePromise(prompt: string): Promise<string | undefined> {
   const openai = new OpenAIApi(configuration);
   const response =  openai.createImage({
     prompt: prompt,
@@ -32,12 +38,19 @@ async function getImagePromise(prompt: string) {
   return response;
 }
 
+async function getReplicateImagePromise(promptString: string): Promise<string> {
+  const model = "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf";
+  const input = { prompt: promptString };
+  return replicate.run(model, { input });
+}
+
 export async function load() {
   const imgPrompt = getRandomImagePrompt();
   return {
     imagePrompt: imgPrompt,
     streamed: {
-      imagePromise: getImagePromise(imgPrompt)
+      openAIImagePromise: getOpenAIImagePromise(imgPrompt),
+      replicateOutputPromise: getReplicateImagePromise(imgPrompt)
     }
   };
 }
