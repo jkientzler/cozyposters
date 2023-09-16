@@ -28,17 +28,7 @@ function getRandomImagePrompt(): string {
   return animal + " in " + setting + ", " + style + " style";
 }
 
-async function getOpenAIImagePromise(prompt: string): Promise<string | undefined> {
-  const openai = new OpenAIApi(configuration);
-  const response =  openai.createImage({
-    prompt: prompt,
-    n: 1,
-    size: "256x256",
-  }).then(res => res.data.data[0].url);
-  return response;
-}
-
-async function getReplicateImagePromise(promptString: string): Promise<string> {
+async function getReplicateImagePromise(promptString: string): Promise<object> {
   const model = "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf";
   const input = { prompt: promptString };
   return replicate.run(model, { input });
@@ -49,7 +39,6 @@ export async function load() {
   return {
     imagePrompt: imgPrompt,
     streamed: {
-      openAIImagePromise: getOpenAIImagePromise(imgPrompt),
       replicateOutputPromise: getReplicateImagePromise(imgPrompt)
     }
   };
