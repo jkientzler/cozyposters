@@ -1,38 +1,16 @@
-# create-svelte
+# CozyPosters
+This is a project I made after hammocking in the park and thinking "gee, how wonderful it would be to have an endlessly refresh-able website of adorable animal images."
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+You can see it live at cozyposters.com. Be warned though, its pretty rough.
 
-## Creating a project
+## Under the Hood
+I decided to use this project to learn ChatGPT APIs, Replicate's StableDiffusion APIs, Svelte, Vercel, and AWS stuff. In the past I've used React & Azure so this was an interesting experience. This is also my first experience using AI models at all.
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Other issues
+AI is a fickle beast, and the ChatGPT prompt generator needs some massaging to make good prompts for the Replicate StableDiffusion2 model to generate images from. 
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+I also need to improve the performance with some frontloading of images/clean up my promise handling.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+My ChatGPT model *loves* hamsters. So right now the site is mostly cozy hamsters.
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+There's also no styling or UI right now. Its a glorified proof of concept.
