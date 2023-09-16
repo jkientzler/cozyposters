@@ -22,20 +22,23 @@ function getRandomImagePrompt(): string {
   return animal + " in " + setting + " " + style;
 }
 
-async function getImageURL(prompt: string) {
+async function getImagePromise(prompt: string) {
   const openai = new OpenAIApi(configuration);
-  const response = await openai.createImage({
+  const response =  openai.createImage({
     prompt: prompt,
     n: 1,
     size: "256x256",
-  });
-  return response.data.data[0].url;
+  }).then(res => res.data.data[0].url);
+  return response;
 }
 
-export function load() {
+export async function load() {
   const imgPrompt = getRandomImagePrompt();
   return {
     imagePrompt: imgPrompt,
-    imageURL: getImageURL(imgPrompt)
+    streamed: {
+      imagePromise: getImagePromise(imgPrompt)
+    }
   };
 }
+
