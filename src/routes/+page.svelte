@@ -13,7 +13,7 @@
     let animal: string = animalNames[getRandomIntInclusive(animalNames.length - 1)];
     let style: string = styles[getRandomIntInclusive(styles.length - 1)];
     let setting: string = settings[getRandomIntInclusive(settings.length - 1)];
-    return animal + " in " + setting + " " + style
+    return animal + " in " + setting + " " + style;
   }
 
 </script>
