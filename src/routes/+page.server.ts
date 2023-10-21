@@ -2,6 +2,7 @@ import { OPEN_AI_KEY, REPLICATE_API_TOKEN, WINSTON_LOG_LEVEL } from '$env/static
 import { Configuration, OpenAIApi, type ChatCompletionRequestMessage } from "openai";
 import Replicate from "replicate";
 import winston from 'winston';
+const { combine, timestamp, json } = winston.format;
 
 
 //REPLICATE
@@ -34,7 +35,7 @@ enum LogLevel {
 //winston
 const logger = winston.createLogger({
   level: WINSTON_LOG_LEVEL || LogLevel.Info,
-  format: winston.format.json(),
+  format: combine(timestamp(), json()),
   transports: [new winston.transports.Console()],
 });
 
@@ -79,7 +80,7 @@ const gptPromptTrainingData: ChatCompletionRequestMessage[] = [
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getGenerativePromptText(): Promise<string> {
-  logger.log(LogLevel.Debug, 'Entered getGenerativePromptText');
+  logger.log(LogLevel.Debug, '[getGenerativePromptText()] Entered function');
   
   const openai = new OpenAIApi(configuration);
   const response = await openai.createChatCompletion({
@@ -92,30 +93,30 @@ async function getGenerativePromptText(): Promise<string> {
     presence_penalty: 0,
   }).then(res => res.data.choices[0].message?.content); //TODO: get details for logging here?
   if(response){
-    logger.log(LogLevel.Debug, 'response received from createChatCompletion');
+    logger.log(LogLevel.Debug, '[getGenerativePromptText()] response received from createChatCompletion');
     const responseObj = JSON.parse(response) as PromptResponse;
     const prompt = responseObj.animal + " " + responseObj.keywords + ", " + responseObj.setting + ", " + responseObj.style + " style";
-    logger.log(LogLevel.Debug, 'ChatGPT generated prompt is: ' + prompt);
+    logger.log(LogLevel.Debug, '[getGenerativePromptText()] ChatGPT generated prompt is: ' + prompt);
     return prompt;
   } else {
-    logger.log(LogLevel.Error, 'await openai.createChatCompletion failed'); //TODO: add error details
+    logger.log(LogLevel.Error, '[getGenerativePromptText()] await openai.createChatCompletion failed'); //TODO: add error details
     return "error symbol";
   }
 }
 
 async function getReplicateImagePromise(promptString: string): Promise<object> {
-  logger.log(LogLevel.Debug, 'Entered getReplicateImagePromise with prompString: ' + promptString);
+  logger.log(LogLevel.Debug, '[getReplicateImagePromise()] Entered function with prompString: ' + promptString);
   const model = "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf";
   const input = { prompt: promptString, num_inference_steps: 100 };
-  logger.log(LogLevel.Debug, 'Returning output of replicate.run(' + model + ', ' + input + ') now.');
+  logger.log(LogLevel.Debug, '[getReplicateImagePromise()] Returning output of replicate.run() now.');
   return replicate.run(model, { input });
 }
 
 export async function load() {
-  logger.log(LogLevel.Debug, 'Entered default route\'s load function');
+  logger.log(LogLevel.Debug, '[load()] Entered function');
   const imgPrompt = await getGenerativePromptText();
-  logger.log(LogLevel.Debug, 'Received imgPrompt: ' + imgPrompt);
-  logger.log(LogLevel.Debug, 'Returning image prompt and image promise now.');
+  logger.log(LogLevel.Debug, '[load()] Received imgPrompt: ' + imgPrompt);
+  logger.log(LogLevel.Debug, '[load()] Returning image prompt and image promise now.');
   return {
     imagePrompt: imgPrompt,
     streamed: {
