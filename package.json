@@ -32,6 +32,7 @@
 	"type": "module",
 	"dependencies": {
 		"openai": "^3.3.0",
-		"replicate": "^0.16.1"
+		"replicate": "^0.16.1",
+		"winston": "^3.11.0"
 	}
 }
