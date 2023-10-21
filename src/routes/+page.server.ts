@@ -17,7 +17,7 @@ const configuration = new Configuration({
 });
 
 //LOGTAIL
-const logtail = new Logtail(DEV_LOGTAIL_TOKEN);
+const logtail = new Logtail(PROD_LOGTAIL_TOKEN);
 
 type PromptResponse = {
   animal: string;
