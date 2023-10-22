@@ -40,7 +40,7 @@ enum LogLevel {
 const logger = winston.createLogger({
   level: WINSTON_LOG_LEVEL || LogLevel.Info,
   format: winston.format.json(),
-  transports: [new winston.transports.Console(), new LogtailTransport(logtail)],
+  transports: new LogtailTransport(logtail),
 });
 
 const gptPromptTrainingData: ChatCompletionRequestMessage[] = [
