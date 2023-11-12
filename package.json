@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-vercel": "^3.0.3",
-		"@sveltejs/kit": "^1.20.4",
+		"@sveltejs/kit": "^1.26.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"@vercel/analytics": "^1.0.2",
@@ -31,7 +31,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"openai": "^3.3.0",
-		"replicate": "^0.16.1"
+		"@logtail/node": "^0.4.12",
+		"@logtail/winston": "^0.4.12",
+		"openai": "^4.17.4",
+		"replicate": "^0.16.1",
+		"winston": "^3.11.0"
 	}
 }
