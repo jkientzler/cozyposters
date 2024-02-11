@@ -117,7 +117,7 @@ export async function load() {
   logger.log(LogLevel.Debug, 'Entered load');
   const imgPrompt = await getGenerativePromptText();
   logger.log(LogLevel.Debug, 'Returning image prompt and image promise now.');
-  logtail.flush();
+  await logtail.flush();
   return {
     imagePrompt: imgPrompt,
     streamed: {
