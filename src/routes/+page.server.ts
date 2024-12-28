@@ -1,4 +1,4 @@
-import { OPEN_AI_KEY, REPLICATE_API_TOKEN, WINSTON_LOG_LEVEL, DEV_LOGTAIL_TOKEN } from '$env/static/private';
+import { OPEN_AI_KEY, REPLICATE_API_TOKEN, WINSTON_LOG_LEVEL, PROD_LOGTAIL_TOKEN } from '$env/static/private';
 import { OpenAI } from "openai";
 import Replicate from "replicate";
 import winston from 'winston';
@@ -12,7 +12,7 @@ const replicate = new Replicate({
 });
 
 //LOGTAIL
-const logtail = new Logtail(DEV_LOGTAIL_TOKEN);
+const logtail = new Logtail(PROD_LOGTAIL_TOKEN);
 
 type PromptResponse = {
   animal: string;
