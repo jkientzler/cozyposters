@@ -34,11 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@logtail/node": "^0.4.21",
-		"@logtail/winston": "^0.4.23",
 		"openai": "^4.82.0",
-		"replicate": "^0.16.1",
-		"winston": "^3.17.0"
+		"replicate": "^0.16.1"
 	},
 	"overrides": {
 		"cookie": "^0.7.0",
